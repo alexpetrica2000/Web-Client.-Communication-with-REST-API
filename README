@@ -1,0 +1,40 @@
+	Realizarea temei a luat cam 5 - 6 ore, timp in care am inteles protocolul
+Aplicatie, in speta HTTP, cum functioneaza GET, POST, DELETE, cum arata
+mesajele trimise / primite si cum functioneaza formatul JSON. A fost
+o tema interesanta si placuta, cu aplicabilitate mare in viata reala.
+	Am realizat cateva functii auxiliare ajutatoare: getCode care intoarce
+codul dintr-un mesaj primit de la server, getCookie care salveaza
+in vectorul de siruri cookieul primit de la server si getJWT
+ce salveaza in variabila JWT din main JWT Tokenul primit de la server
+in momentul in care accesam biblioteca. Am folosit biblioteca parson
+pentru JSON deoarece mi s-a parut intuitiva si usor de folosit, continand
+exemple si comentarii folositoare.
+	In functia main initial am declarate variabilele in care trimit/primesc
+mesaje, buffere de citire, body, JWT, cookies ce sunt folosite constant
+pe tot parcursul programului. Am o bucla while in care iterez pana
+cand se primeste comanda "exit" de la tastatura. Citirea in buffer
+se efectueaza cu fgets si se asteapta ca de la tastatura sa se efectueze
+, de exemplu "register", nu "register " sau oricate spatii dupa cuvant.
+	In mare, fiecare comanda respecta acelasi pattern: Se citesc date
+de la intrare daca este cazul, se parseaza in format JSON pentru server,
+se alcatuieste bodyul, se trimite mesajul catre server, se primeste raspuns, 
+se identifica codul mesajului eroare/succes si se afiseaza corespunzator.
+Mici diferente la :
+	- login, deoarece se primeste Cookieul ce demonstreaza ca suntem 
+autentificati si este retinut in cookies prin intermediul lui getCookie.
+	- enter_library, deoarece la compute_get_reqeust pe langa body trimitem 
+si cookieul, primim JWT pe care il retinem corespunzator deoarece il vom 
+folosi sa demonstram ca avem acces la biblioteca.
+	- get_books, deoarece la compute_get_request trimitem atat cookie cat
+si JWT si primim lista de obiecte JSON ce reprezinta cartile.
+	- get_book asemanator cu get_books doar ca intoarce un singur obiect 
+JSON reprezentand cartea cu id-ul specific cerut
+	- delete_book deoarece acum folosim compute_delete_request ce foloseste
+doar JWT (implementare suplimentara fata de laborator)
+	- add_book deoarece trimitem exclusiv body si JWT, body continand
+un string de forma JSON object cu datele despre carte
+	- logout deoarece dupa ce am reusit delogarea resetem cookie_size
+si JWT (practic stergem datele de la sesiunea anterioara)
+	- difenretele in request.c fata de laborator, am adaugat 2 campuri
+int type si char *JWT pentru a compune mesajele si cu JWT ( se compun 
+cu JWT daca type = 1)
